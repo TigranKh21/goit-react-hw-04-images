@@ -1,43 +1,39 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import css from './SearchBar.module.css';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 
-export class SearchBar extends Component {
-  state = {
-    searchValue: '',
+export const SearchBar = ({ handleSearchQuery }) => {
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleChangeSearch = e => {
+    setSearchValue(e.target.value.toLowerCase());
   };
 
-  handleChangeSearch = e => {
-    this.setState({ searchValue: e.target.value.toLowerCase() });
-  };
-
-  handleSearch = e => {
+  const handleSearch = e => {
     e.preventDefault();
-    if (this.state.searchValue.trim() === '') {
+    if (searchValue.trim() === '') {
       return;
     }
-    this.props.handleSearchQuery(this.state.searchValue);
-    this.setState({ searchValue: '' });
+    handleSearchQuery(searchValue);
+    setSearchValue('');
   };
 
-  render() {
-    return (
-      <header className={css.searchbar}>
-        <form className={css.searchForm} onSubmit={this.handleSearch}>
-          <button type="submit" className={css.searchFormButton}>
-            <FaMagnifyingGlass />
-          </button>
+  return (
+    <header className={css.searchbar}>
+      <form className={css.searchForm} onSubmit={handleSearch}>
+        <button type="submit" className={css.searchFormButton}>
+          <FaMagnifyingGlass />
+        </button>
 
-          <input
-            onChange={this.handleChangeSearch}
-            className={css.searchFormInput}
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-          />
-        </form>
-      </header>
-    );
-  }
-}
+        <input
+          onChange={handleChangeSearch}
+          className={css.searchFormInput}
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        />
+      </form>
+    </header>
+  );
+};
