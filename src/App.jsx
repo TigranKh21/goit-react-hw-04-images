@@ -17,34 +17,34 @@ export const App = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const fetchImg = async () => {
-    try {
-      const imagesData = await requestImg(query, page);
-      const totalPages = Math.ceil(imagesData.total / 12);
-      const filteredData = imagesData.hits.map(
-        ({ id, webformatURL, largeImageURL, tags }) => ({
-          id,
-          webformatURL,
-          largeImageURL,
-          tags,
-        })
-      );
-      setImages(
-        Array.isArray(images) ? [...images, ...filteredData] : filteredData
-      );
-      setStatus('success');
-      setTotalPages(totalPages);
-    } catch (error) {
-      setError(error.message);
-      setStatus('error');
-    }
-  };
-
   useEffect(() => {
     if (query) {
+      const fetchImg = async () => {
+        try {
+          const imagesData = await requestImg(query, page);
+          const totalPages = Math.ceil(imagesData.total / 12);
+          const filteredData = imagesData.hits.map(
+            ({ id, webformatURL, largeImageURL, tags }) => ({
+              id,
+              webformatURL,
+              largeImageURL,
+              tags,
+            })
+          );
+          setImages(
+            Array.isArray(images) ? [...images, ...filteredData] : filteredData
+          );
+          setStatus('success');
+          setTotalPages(totalPages);
+        } catch (error) {
+          setError(error.message);
+          setStatus('error');
+        }
+      };
+
       fetchImg();
     }
-  }, [query, page]);
+  }, [query, page, images]);
 
   const onCloseModal = () => {
     setShowModal(false);
@@ -52,11 +52,8 @@ export const App = () => {
   };
 
   const handleImageClick = largeImageURL => {
-    const largeImg = images.filter(
-      image => image.largeImageURL === largeImageURL
-    )[0].largeImageURL;
     setShowModal(true);
-    setModalImg(largeImg);
+    setModalImg(largeImageURL);
   };
 
   const handleSearchQuery = searchValue => {

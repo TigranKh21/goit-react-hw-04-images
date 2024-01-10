@@ -2,6 +2,7 @@
   "name": "react-homework-template",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3000/goit-react-hw-04-images",
   "homepage": "https://TigranKh21.github.io/goit-react-hw-04-images/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
