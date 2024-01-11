@@ -31,9 +31,7 @@ export const App = () => {
               tags,
             })
           );
-          setImages(
-            Array.isArray(images) ? [...images, ...filteredData] : filteredData
-          );
+          setImages(prevState => [...prevState, ...filteredData]);
           setStatus('success');
           setTotalPages(totalPages);
         } catch (error) {
@@ -44,7 +42,7 @@ export const App = () => {
 
       fetchImg();
     }
-  }, [query, page, images]);
+  }, [query, page]);
 
   const onCloseModal = () => {
     setShowModal(false);
